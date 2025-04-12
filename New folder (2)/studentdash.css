@@ -580,4 +580,142 @@ section {
     .nav-links i {
         font-size: 1.5rem;
     }
+}
+
+/* Message Box Styles */
+.message-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    animation: slideUp 0.3s ease-out;
+}
+
+.message-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--primary);
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+
+.message-box-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.message-box-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: #f5f5f5;
+}
+
+.message-history {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 5px;
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.message.mentor {
+    justify-content: flex-start;
+}
+
+.message.student {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    position: relative;
+}
+
+.message.mentor .message-content {
+    background-color: #e9ecef;
+    border-bottom-left-radius: 5px;
+}
+
+.message.student .message-content {
+    background-color: var(--primary);
+    color: #fff;
+    border-bottom-right-radius: 5px;
+}
+
+.message-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.message-time {
+    font-size: 10px;
+    opacity: 0.7;
+    display: block;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.message-input {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-input textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    resize: none;
+    max-height: 100px;
+    font-family: inherit;
+}
+
+.send-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 5px;
+    font-size: 18px;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 } 

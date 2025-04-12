@@ -84,8 +84,7 @@ menteeCards.forEach(card => {
     
     messageBtn.addEventListener('click', () => {
         const menteeName = card.querySelector('h3').textContent;
-        // Add message functionality here
-        console.log(`Message ${menteeName} clicked`);
+        openMessageBox(menteeName);
     });
     
     scheduleBtn.addEventListener('click', () => {
@@ -165,4 +164,121 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     console.log('Mentor Dashboard initialized');
+});
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all message buttons
+    const messageButtons = document.querySelectorAll('.mentee-actions .btn-primary');
+    
+    // Add click event listeners to all message buttons
+    messageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the mentee name from the card
+            const menteeCard = this.closest('.mentee-card');
+            const menteeName = menteeCard.querySelector('.mentee-info h3').textContent;
+            openMessageBox(menteeName);
+        });
+    });
+    
+    // Function to open the message box
+    function openMessageBox(menteeName) {
+        // Create message box container
+        const messageBox = document.createElement('div');
+        messageBox.className = 'message-box';
+        messageBox.id = 'messageBox';
+        
+        // Create message box content
+        messageBox.innerHTML = `
+            <div class="message-box-header">
+                <h3>Message to ${menteeName}</h3>
+                <button class="close-btn" id="closeMessageBox">&times;</button>
+            </div>
+            <div class="message-box-body">
+                <div class="message-history">
+                    <div class="message mentor">
+                        <div class="message-content">
+                            <p>Hi ${menteeName}! How's your progress with the project?</p>
+                            <span class="message-time">10:30 AM</span>
+                        </div>
+                    </div>
+                    <div class="message student">
+                        <div class="message-content">
+                            <p>I've completed the basic structure and components. Working on state management now.</p>
+                            <span class="message-time">11:15 AM</span>
+                        </div>
+                    </div>
+                    <div class="message mentor">
+                        <div class="message-content">
+                            <p>Great! Let me know if you need any help with Redux or Context API.</p>
+                            <span class="message-time">11:30 AM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-input">
+                    <textarea placeholder="Type your message..."></textarea>
+                    <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        `;
+        
+        // Append message box to the body
+        document.body.appendChild(messageBox);
+        
+        // Add event listener to close button
+        document.getElementById('closeMessageBox').addEventListener('click', function() {
+            closeMessageBox();
+        });
+        
+        // Add event listener to send button
+        const sendBtn = messageBox.querySelector('.send-btn');
+        const messageInput = messageBox.querySelector('textarea');
+        
+        sendBtn.addEventListener('click', function() {
+            sendMessage(messageInput.value);
+        });
+        
+        // Allow sending message with Enter key
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage(messageInput.value);
+            }
+        });
+        
+        // Function to send a message
+        function sendMessage(message) {
+            if (message.trim() === '') return;
+            
+            const messageHistory = messageBox.querySelector('.message-history');
+            const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Create new message element
+            const newMessage = document.createElement('div');
+            newMessage.className = 'message mentor';
+            newMessage.innerHTML = `
+                <div class="message-content">
+                    <p>${message}</p>
+                    <span class="message-time">${currentTime}</span>
+                </div>
+            `;
+            
+            // Add new message to history
+            messageHistory.appendChild(newMessage);
+            
+            // Clear input
+            messageInput.value = '';
+            
+            // Scroll to bottom
+            messageHistory.scrollTop = messageHistory.scrollHeight;
+        }
+    }
+    
+    // Function to close the message box
+    function closeMessageBox() {
+        const messageBox = document.getElementById('messageBox');
+        if (messageBox) {
+            messageBox.remove();
+        }
+    }
 }); 
